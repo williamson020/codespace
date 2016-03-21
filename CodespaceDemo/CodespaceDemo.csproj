@@ -56,6 +56,8 @@
     <Compile Include="CodespaceElementFactory.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="GraphicImageElement.cs" />
+    <Compile Include="Instruction.cs" />
+    <Compile Include="MethodCall.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Robots1.cs" />

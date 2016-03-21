@@ -17,5 +17,10 @@ namespace CodespaceDemo
 
         }
 
+
+        internal void Add(Instruction instruction)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -6,14 +6,40 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace CodespaceDemo
 {
     public static class PathHelper
     {
-       
 
-        public static Path PathFromGrid(int unitsX, int unitsY, Point gridSize)
+        [DebuggerStepThrough]
+        public static LineSegment MakeSegment(int x, int y)
+        {
+            LineSegment ls = new LineSegment();
+            ls.Point = new Point(x, y);
+            return ls;
+
+        }
+
+        [DebuggerStepThrough]
+        public static LineSegment MakeSegment(Point p)
+        {
+            LineSegment ls = new LineSegment();
+            ls.Point = new Point((int)p.X, (int)p.Y);
+            return ls;
+
+        }
+
+
+        /// <summary>
+        /// Create a regular closed path of 4 lines from X by Y  grid units
+        /// </summary>
+        /// <param name="unitsX"></param>
+        /// <param name="unitsY"></param>
+        /// <param name="gridSize"></param>
+        /// <returns></returns>
+        public static PathFigure PathFigureFromGrid(int unitsX, int unitsY, Point gridSize)
         {
             if (unitsX == 0 || unitsY == 0)
                 return null;
@@ -21,40 +47,18 @@ namespace CodespaceDemo
             if (gridSize.X==0 || gridSize.Y==0)
                 return null;
             
+            PathSegmentCollection myPathSegmentCollection = new PathSegmentCollection();
+            myPathSegmentCollection.Add(MakeSegment(unitsX * (int)gridSize.X, 0));
+            myPathSegmentCollection.Add(MakeSegment(unitsX * (int)gridSize.X, unitsY * (int)gridSize.Y));
+            myPathSegmentCollection.Add(MakeSegment(0, unitsY * (int)gridSize.Y));
+            myPathSegmentCollection.Add(MakeSegment(0,0));
+
+
             PathFigure pf = new PathFigure();
             pf.StartPoint = new Point(0, 0);
-
-            LineSegment ls1 = new LineSegment();
-            ls1.Point = new Point(unitsX * gridSize.X, 0);
-            LineSegment ls2 = new LineSegment();
-            ls2.Point = new Point(unitsX * gridSize.X, unitsY*gridSize.Y);
-            LineSegment ls3 = new LineSegment();
-            ls2.Point = new Point(0, unitsY * gridSize.Y);
-            LineSegment ls4 = new LineSegment();
-            ls2.Point = new Point(0,0);
-            
-
-            PathSegmentCollection myPathSegmentCollection = new PathSegmentCollection();
-            myPathSegmentCollection.Add(ls1);
-            myPathSegmentCollection.Add(ls2);
-            myPathSegmentCollection.Add(ls3);
-            myPathSegmentCollection.Add(ls4);
-
             pf.Segments = myPathSegmentCollection;
 
-            PathFigureCollection pfc = new PathFigureCollection();
-            pfc.Add(pf);
-
-            PathGeometry myPathGeometry = new PathGeometry();
-            myPathGeometry.Figures = pfc;
-
-            Path p = new Path();
-            p.Stroke = Brushes.Black;
-            p.StrokeThickness = 1;
-            p.Data = myPathGeometry;
-
-            return p;
-
+            return pf;
 
         }
 
@@ -129,6 +133,32 @@ namespace CodespaceDemo
             }
 
             throw new Exception();
+        }
+
+        internal static Point Offset(Point p, int x, int y)
+        {
+            Point copy = new Point(p.X,p.Y);
+
+            copy.Offset((int)x, (int)y);
+
+            return copy;
+
+        }
+
+        internal static PathFigure Offset(PathFigure pf, int x, int y)
+        {
+            PathSegmentCollection coll = new PathSegmentCollection();
+            foreach (LineSegment seg in pf.Segments)
+            {
+                Point j = Offset(seg.Point,x, y);
+                coll.Add(MakeSegment(j));
+            }
+
+            PathFigure pfnew = new PathFigure();
+            pfnew.StartPoint = Offset(pf.StartPoint, x, y);
+            pfnew.Segments = coll;
+
+            return pfnew;
         }
     }
 }

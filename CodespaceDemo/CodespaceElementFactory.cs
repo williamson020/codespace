@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Shapes;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Reflection;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -49,15 +52,19 @@ namespace CodespaceDemo
 
         }
 
-        internal static StaticPathElement StaticHelper(Point gridsize)
+        /// <summary>
+        /// Note: you must add one or more PathFigure to this collection
+        /// </summary>
+        internal static StaticPathElement StaticPathHelper(string key, Codespace codespace, Brush strokeBrush, int strokethickness, string imageSrc)
         {
 
-            var sp = new StaticPathElement();
+            var sp = new StaticPathElement(key,codespace);
+            sp.Init(strokeBrush, strokethickness, imageSrc); 
 
             /*
             <Path  Stroke ="Black" StrokeThickness="2" Data="M100,50 L140,60 L150,100 L125,120 L90,110 L80,80 z M15,40 L70,15 L80,30 L65,70 L80,115 L10,80 z M160,40 L170,50 L180,90 L180,120 L140,150 L130,130 L160,100 z" >
                     <Path.Fill>
-                        <ImageBrush ImageSource="C:\tmp\Assets\Backgrounds\CircuitBoard_Pink.png" TileMode="None" Stretch="UniformToFill" />
+                        <ImageBrush ImageSource="" TileMode="None" Stretch="UniformToFill" />
                     </Path.Fill>
 
                 </Path>

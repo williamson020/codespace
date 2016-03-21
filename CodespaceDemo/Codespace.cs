@@ -49,9 +49,34 @@ namespace CodespaceDemo
             Initialise();
 
         }
+        #endregion
 
-        protected void CreateGrid()
+        #region Grid Helpers
+
+        public int GridUnits(int units, Ordinal dir)
         {
+            switch(dir)
+            {
+                case Ordinal.Right:
+                    return units * (int)_gridSize.X;
+
+                case Ordinal.Left:
+                    return -1 * units *  (int)_gridSize.X;
+
+                case Ordinal.Down:
+                    return units * (int)_gridSize.Y;
+
+                case Ordinal.Up:
+                    return -1 * units * (int)_gridSize.Y;
+            }
+
+            return 0;
+        }
+
+        protected void CreateGrid(int width, int height)
+        {
+            _gridSize = new Point(width, height);
+
             if ((_gridSize.X > 0) && (+_gridSize.Y > 0))
             {
                 DrawingBrush brush = new DrawingBrush();
