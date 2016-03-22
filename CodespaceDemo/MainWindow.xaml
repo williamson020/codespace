@@ -11,7 +11,7 @@
         <!-- The Viewbox will allow to easily scale the Canvas'es contents -->
         <Viewbox Stretch="Uniform" Margin="5">
             <Border BorderBrush="Pink" BorderThickness="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="800" Width="1000" CornerRadius="7" />
-            
+
             <!--Border BorderThickness="2" CornerRadius="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="800" Width="1000" Margin="0,0,40,40">
                 <Border.BorderBrush>
                     <VisualBrush>
@@ -40,10 +40,16 @@
         </Viewbox>
 
         <!-- This will allow to show/hide the path along which the shape travels. -->
+
         <CheckBox x:Name="chkShowPaths" 
                    Content="Show Paths"
                    IsChecked="True"
                    Margin="15,5"
                    Grid.Row="1"/>
+
+        <Button Content="Reset" Width ="80" Grid.Row="1"  Click="Reset_Click" Margin="780,0,132,0"/>
+        <Button Content="Run" Width ="80" Grid.Row="1" Click ="Run_Click" Margin="865,0,47,0"/>
+
+
     </Grid>
 </Window>

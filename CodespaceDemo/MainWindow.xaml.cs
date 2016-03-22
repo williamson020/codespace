@@ -36,12 +36,24 @@ namespace CodespaceDemo
             _codespace1 = new Robots1("ROBOTS-1", this, 1000, 800);
             
             _codespace1.SetMode(Codespace.Mode.DesignTime);
-
             _codespace1.Layout();
                                     
             //Runtime invoked fromUI
             
 
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+            _codespace1.SetMode(Codespace.Mode.DesignTime);
+            _codespace1.Layout();
+
+        }
+
+        private void Run_Click(object sender, RoutedEventArgs e)
+        {
+            _codespace1.SetMode(Codespace.Mode.Runtime);
+            _codespace1.Run();
         }
 
     }

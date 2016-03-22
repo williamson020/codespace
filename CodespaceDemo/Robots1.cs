@@ -16,6 +16,8 @@ namespace CodespaceDemo
     public class Robots1 : Codespace
     {
 
+        public readonly string ROBOT_TYPENAME = "ROBOT1";
+
         public Robots1(string name, MainWindow wnd, int width, int height)
             : base (name,wnd, width,height)
         {
@@ -28,6 +30,8 @@ namespace CodespaceDemo
         {
             try
             {
+
+                CreateTypes();
 
                 //not magnetic
                 CreateGrid(60,60);
@@ -42,16 +46,41 @@ namespace CodespaceDemo
           
         }
 
-        private void CreateProgram()
+        private void CreateTypes()
         {
-            //declare visible methods
+            RegisterType(ROBOT_TYPENAME);
+
+            GetType(ROBOT_TYPENAME).AddMethod("MOVE", MovePublic, new  EnumArgumentType<Codespace.Ordinal>("Direction"), new IntArgumentType("UNITS"));
 
 
-            TheProgram.Add(new Instruction(Move, Ordinal.Down, 2));
         }
 
+        private void CreateProgram()
+        {
+
+            var benny = FindElement("ROBOT1");
+            TheProgram.Push(benny);
+            TheProgram.Push(Ordinal.Down.ToString());
+            TheProgram.Push(2);
+            TheProgram.Invoke(benny.FindMethod("MOVE"));
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        private void MovePublic(CodespaceElement receiver, object[] args)
+        {
+            //todo - THE WORK OF MOVEPUBLIC
+            Debug.WriteLine(receiver.Key);
+            Debug.WriteLine(args[0].ToString());
+            Debug.WriteLine(args[1].ToString());
+        }
+        
         private void Move(Ordinal dir, int units)
         {
+            //call some generic method in base class 
 
         }
 
@@ -94,7 +123,7 @@ namespace CodespaceDemo
             //AddElement(b, GridUnits(3, Ordinal.Right), GridUnits(3, Ordinal.Down));   
 
 
-            GraphicImageElement robot = (GraphicImageElement)CodespaceElementFactory.Create("ROBOT", typeof(GraphicImageElement), this);
+            GraphicImageElement robot = (GraphicImageElement)CodespaceElementFactory.Create("ROBOT1", typeof(GraphicImageElement), this, GetType(ROBOT_TYPENAME));
             //robot.Graphic = new Uri("file:///C:/tmp/robot_square.png", UriKind.Absolute);
             robot.Graphic = new Uri("file:///C:/tmp/robot.png", UriKind.Absolute);
             robot.Size = _gridSize;

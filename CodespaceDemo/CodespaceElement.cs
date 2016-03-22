@@ -10,16 +10,18 @@ namespace CodespaceDemo
 {
     interface ICodespaceElement
     {
-        string Key { get; set; }
-        Codespace Parent { get; }
-        void Layout();
+        string      Key { get; set; }
+        Codespace   Parent { get; }
+        ElementType Type { get; set; }
+        void        Layout();
 
     }
 
     public abstract class CodespaceElement : ICodespaceElement
     {
         
-        private string _key;
+        private string      _key;
+        private ElementType _type;
         
         protected Codespace _parent;
 
@@ -64,10 +66,24 @@ namespace CodespaceDemo
         }
 
         public abstract void Layout();
-       
-       
+
+
+
+        public ElementType Type
+        {
+
+            get { return _type; }
+            set { _type = value; }
+        }
 
        
+        internal MethodType FindMethod(string name)
+        {
+            if (Type != null)
+                return Type.LookupMethod(name);
+
+            return null;
+        }
 
         #endregion
     }

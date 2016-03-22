@@ -16,7 +16,7 @@ namespace CodespaceDemo
     {
 
 
-        internal static VisualElement Create(string key, Type type, Codespace codespace)
+        internal static VisualElement Create(string key, Type type, Codespace codespace, ElementType eltype)
         {
 
             try
@@ -33,8 +33,12 @@ namespace CodespaceDemo
 
                 var ctr = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(String), typeof(Codespace) }, null);
 
-                if (ctr!=null)
-                    return (VisualElement)ctr.Invoke(new object[] { key, codespace });
+                if (ctr != null)
+                {
+                    var obj = (VisualElement)ctr.Invoke(new object[] { key, codespace });
+                    obj.Type = eltype;
+                    return obj ;
+                }
 
 
             }

@@ -19,6 +19,8 @@ namespace CodespaceDemo
         #region Data Members
         private Dictionary<string, CodespaceElement> _elements = new Dictionary<string, CodespaceElement>();
 
+        private Dictionary<string, ElementType> _types = new Dictionary<string, ElementType>();
+
         private Ordinal? _magnetism = null;
 
         private Canvas _canvas;
@@ -120,7 +122,6 @@ namespace CodespaceDemo
         public virtual void  SetMode(Mode m)
         {
             _mode = m;
-
             ShowGrid((m == Mode.DesignTime) || _gridVisible);
         }
 
@@ -148,7 +149,7 @@ namespace CodespaceDemo
             get { return (int)_gridSize.Y; }
         }
 
-        public Program TheProgram
+        internal Program TheProgram
         {
             get { return _program;  }
         }
@@ -189,6 +190,30 @@ namespace CodespaceDemo
         #endregion
 
 
+        #region Types
+
+        protected void RegisterType(string typename)
+        {
+            if (GetType(typename) != null)
+                throw new ArgumentException("DUPLICATE TYPENAME");
+
+            _types.Add(typename, new ElementType(typename));
+
+
+        }
+
+        internal ElementType GetType(string key)
+        {
+            ElementType target;
+
+            if (_types.TryGetValue(key, out target))
+                return target;
+
+            return null;
+
+        }
+        #endregion
+
         /*
          * TODO: LinkCodespace
         public void LinkCodespace(Codespace cs)
@@ -202,6 +227,19 @@ namespace CodespaceDemo
         protected void AddElement(VisualElement el, int x, int y)
         {
             AddElement(el, new Point(x,y));
+        }
+
+
+
+        protected CodespaceElement FindElement(string key)
+        {
+            CodespaceElement target;
+
+            if (_elements.TryGetValue(key, out target))
+                return target;
+
+            return null;
+                
         }
 
         protected void AddElement(VisualElement el, Point layoutPos)
@@ -228,13 +266,15 @@ namespace CodespaceDemo
         }
 
 
+        /*
         public void RuntimeReset(bool doLayout = true)
         {
             TheCanvas.Children.Clear();
 
             if (doLayout)
                     Layout();
-        }
+        }*/
+
 
         public bool HasMagneticBorder
         {
@@ -286,10 +326,8 @@ namespace CodespaceDemo
 
 
 
-        internal void InitRuntime()
+        internal void Run()
         {
-
-
             _vm = new VirtualMachine(this);
             _vm.Execute();
         }

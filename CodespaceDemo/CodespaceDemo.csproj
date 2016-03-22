@@ -53,11 +53,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ArgumentTypes.cs" />
     <Compile Include="CodespaceElementFactory.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="ElementType.cs" />
     <Compile Include="GraphicImageElement.cs" />
     <Compile Include="Instruction.cs" />
-    <Compile Include="MethodCall.cs" />
+    <Compile Include="Method.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Robots1.cs" />

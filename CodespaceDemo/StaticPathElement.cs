@@ -68,6 +68,7 @@ namespace CodespaceDemo
                 ib.TileMode = TileMode.None;
                 ib.Stretch = Stretch.UniformToFill;
                 _path.Fill = ib;
+                ib.Opacity = 0.5;
             }
 
         }
