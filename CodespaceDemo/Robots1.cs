@@ -41,7 +41,7 @@ namespace CodespaceDemo
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message); // dont forget to add assets to git
             }
           
         }
